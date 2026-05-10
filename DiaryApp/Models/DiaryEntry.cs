@@ -6,8 +6,8 @@ namespace DiaryApp.Models
     {
         [Key]       
         public int DiaryEntryId { get; set; }
-        [Required(ErrorMessage = "Başlık Gereklidir")]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "Başlık en fazla 100 karakter olabilir")]
+        //[Required(ErrorMessage = "Başlık Gereklidir")]
+        //[StringLength(100, MinimumLength = 3, ErrorMessage = "Başlık en fazla 100 karakter olabilir")]
         public string Title { get; set; }
         [Required(ErrorMessage = "İçerik Gereklidir")]
         [StringLength(1000, MinimumLength = 10, ErrorMessage = "İçerik en fazla 1000 karakter olabilir")]
