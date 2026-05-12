@@ -1,11 +1,12 @@
-﻿@model List<DiaryApp.Models.DiaryEntry>
-
-
+﻿@* Veritabanından gelen günlük kayıtlarının listesini bu sayfada model olarak kullanacağımızı belirtiyoruz *@
+@model List<DiaryApp.Models.DiaryEntry>
 
 <div class="container">
     <div class="row pt-4">
         <div class="col-6">
+            @* 'Create New Diary Entry' butonu; tıklandığında DiaryEntry kontrolcüsündeki 'Create' sayfasına yönlendirir *@
             <a class="btn btn-primary " asp-action="Create">
+                @* Buton içindeki artı (+) simgesi (SVG ikon) *@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-plus" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 .5-.5" />
                     <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
@@ -14,21 +15,18 @@
             </a>
         </div>
         <div class="col-6 text-end">
+            @* Sayfanın başlığını sağa yaslanmış şekilde gösterir *@
             <h2>Diary Entries</h2>
         </div>
-
     </div>
-
-
 </div>
 
-
-
-
 <div class="table-respansive">
+    @* Verileri düzenli bir tabloda göstermek için Bootstrap tablo sınıflarını kullanıyoruz *@
     <table class="table table-striped table-hover">
         <thead>
             <tr>
+                @* Tablonun başlık kısımları *@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Content</th>
@@ -37,22 +35,27 @@
             </tr>
         </thead>
         <tbody>
+            @* Model içindeki her bir günlük girişi için döngü başlatıyoruz *@
             @foreach (var item in Model)
             {
                 <tr>
-                   <td>@item.DiaryEntryId</td>
+                    @* Kaydın ID, Başlık ve İçerik bilgilerini ilgili hücrelere yazdırıyoruz *@
+                    <td>@item.DiaryEntryId</td>
                     <td>@item.Title</td>
                     <td>@item.Content</td>
+                    @* Tarih bilgisini sadece 'Gün.Ay.Yıl' formatında gösterir *@
                     <td>@item.Created.ToShortDateString()</td>
                     <td>
-                        <a asp-controller="DiaryEntry" asp-action="Edit" asp-route-id="@item.DiaryEntryId"  class="btn btn-primary btn-sm"> 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                        </svg>
-                        Edit
-                    </a> 
-                        <a asp-controller="DiaryEntry" asp-action="Delete" asp-route-id="@item.DiaryEntryId"  class="btn btn-danger btn-sm">
+                        @* DÜZENLE BUTONU: Tıklanan kaydın ID'sini alarak Edit sayfasına gönderir *@
+                        <a asp-controller="DiaryEntry" asp-action="Edit" asp-route-id="@item.DiaryEntryId" class="btn btn-primary btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                            </svg>
+                            Edit
+                        </a>
+                        @* SİLME BUTONU: Tıklanan kaydın ID'sini alarak Delete (onay) sayfasına gönderir *@
+                        <a asp-controller="DiaryEntry" asp-action="Delete" asp-route-id="@item.DiaryEntryId" class="btn btn-danger btn-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser" viewBox="0 0 16 16">
                                 <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828zm2.121.707a1 1 0 0 0-1.414 0L4.16 7.547l5.293 5.293 4.633-4.633a1 1 0 0 0 0-1.414zM8.746 13.547 3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293z" />
                             </svg>
@@ -62,9 +65,5 @@
                 </tr>
             }
         </tbody>
-
     </table>
-
-
-
 </div>

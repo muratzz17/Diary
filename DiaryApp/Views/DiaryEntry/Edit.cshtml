@@ -1,46 +1,57 @@
-﻿@model DiaryApp.Models.DiaryEntry
-
+﻿@* Düzenlenecek olan tek bir günlük girişini model olarak tanımlıyoruz *@
+@model DiaryApp.Models.DiaryEntry
 
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <div class="card">
+                @* Kartın başlık kısmı (Mavi arka plan ve beyaz yazı) *@
                 <div class="card-header bg-primary text-white">
                     <h2>Edit Diary Entry</h2>
                 </div>
                 <div class="card-body">
 
+                    @* Form verileri POST metoduyla Controller'daki Edit aksiyonuna gönderir *@
                     <form asp-action="Edit" method="post">
+
+                        @* GİZLİ ALAN: Kaydın ID'sini tutar. Kullanıcı görmez ama güncellenecek kaydı ayırt etmek için şarttır *@
                         <input type="hidden" asp-for="DiaryEntryId" />
+
+                        @* Tüm doğrulama hatalarını (örneğin "Başlık kısa" uyarısı) listenin başında gösterir *@
                         <div asp-validation-summary="All" class="text-danger"></div>
+
+                        @* Başlık giriş alanı *@
                         <div class="form-group mb-3">
                             <label asp-for="Title" class="form-label">Title </label>
                             <input asp-for="Title" class="form-control" placeholder="Enter a title" />
                         </div>
+
+                        @* İçerik giriş alanı *@
                         <div class="form-group mb-3">
                             <label asp-for="Content" class="form-label">Content </label>
                             <input asp-for="Content" row="5" class="form-control" placeholder="Enter a Content" />
                         </div>
+
+                        @* Tarih seçme alanı (type="date" takvim açılmasını sağlar) *@
                         <div class="form-group mb-3">
                             <label asp-for="Created" class="form-label">Date </label>
                             <input asp-for="Created" class="form-control" type="date" />
                         </div>
+
+                        @* Butonlar: Kaydetme (Submit) ve İptal etme (Index'e geri döner) *@
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-primary">Edit</button>
                             <a asp-controller="DiaryEntry" asp-action="Index" class="btn btn-danger">Cancel </a>
                         </div>
                     </form>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
+    @* İstemci taraflı (Client-side) doğrulama kütüphanelerini sayfaya dahil eder *@
+    @* Bu sayede sayfa yenilenmeden hatalar anında görülebilir *@
     @section Scripts {
         <partial name="_ValidationScriptsPartial" />
     }
-
-
 </div>

@@ -1,46 +1,59 @@
-﻿@model DiaryApp.Models.DiaryEntry
-
+﻿@* Silinmek üzere seçilen günlük girişini model olarak sayfaya dahil ediyoruz *@
+@model DiaryApp.Models.DiaryEntry
 
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <div class="card">
+                @* Kart başlığı (Kullanıcıya silme işleminde olduğunu hatırlatmak için kırmızı butonla uyumlu tasarım) *@
                 <div class="card-header bg-primary text-white">
                     <h2>Delete Diary Entry</h2>
                 </div>
                 <div class="card-body">
 
+                    @* Form, verileri POST metoduyla Controller'daki Delete aksiyonuna gönderir *@
                     <form asp-action="Delete" method="post">
+
+                        @* GİZLİ ALAN: Hangi kaydın silineceğini belirten ID bilgisini sunucuya taşır *@
                         <input type="hidden" asp-for="DiaryEntryId" />
+
+                        @* Olası doğrulama veya sistem hatalarını göstermek için kullanılır *@
                         <div asp-validation-summary="All" class="text-danger"></div>
+
+                        @* Silinecek kaydın Başlık bilgisi (Genelde 'readonly' yapılarak değiştirilmesi engellenir) *@
                         <div class="form-group mb-3">
                             <label asp-for="Title" class="form-label">Title </label>
                             <input asp-for="Title" class="form-control" placeholder="Enter a title" />
                         </div>
+
+                        @* Silinecek kaydın İçerik bilgisi *@
                         <div class="form-group mb-3">
                             <label asp-for="Content" class="form-label">Content </label>
                             <input asp-for="Content" row="5" class="form-control" placeholder="Enter a Content" />
                         </div>
+
+                        @* Silinecek kaydın Tarih bilgisi *@
                         <div class="form-group mb-3">
                             <label asp-for="Created" class="form-label">Date </label>
                             <input asp-for="Created" class="form-control" type="date" />
                         </div>
+
+                        @* Aksiyon Butonları *@
                         <div class="d-flex justify-content-between">
+                            @* Silme işlemini onaylayan ve formu gönderen buton *@
                             <button type="submit" class="btn btn-danger">Delete</button>
+
+                            @* Vazgeçme butonu: Hiçbir işlem yapmadan listeye geri döner *@
                             <a asp-controller="DiaryEntry" asp-action="Index" class="btn btn-danger">Cancel </a>
                         </div>
                     </form>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
+    @* Sayfa tarafındaki doğrulama betiklerini yükler *@
     @section Scripts {
         <partial name="_ValidationScriptsPartial" />
     }
-
-
 </div>

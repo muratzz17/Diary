@@ -5,8 +5,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Uygulama servislerine Veritabanı Bağlamını (DbContext) ekler
 builder.Services.AddDbContext<ApplicationDbContext>(
-    option=>option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    // DbContext seçeneklerini (options) yapılandırıyoruz
+    option => option.UseSqlServer(
+        // 'appsettings.json' dosyasındaki "DefaultConnection" isimli bağlantı metnini (ConnectionString) okur
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+);
 
 
 var app = builder.Build();
