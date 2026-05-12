@@ -1,6 +1,7 @@
 ﻿using DiaryApp.Data;
 using DiaryApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace DiaryApp.Controllers
 {
@@ -16,13 +17,13 @@ namespace DiaryApp.Controllers
         public IActionResult Index()
         {
             List<DiaryEntry> entries = _context.DiaryEntries.ToList();
-            
+
             return View(entries);
         }
 
         public IActionResult Create()
         {
-            
+
             return View();
         }
         [HttpPost]
@@ -48,5 +49,70 @@ namespace DiaryApp.Controllers
             return View(obj);
 
         }
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            DiaryEntry? diary = _context.DiaryEntries.Find(id);
+
+            if (diary == null)
+            {
+                return NotFound();
+            }
+
+            return View(diary);
+        }
+        [HttpPost]
+        public IActionResult Edit(DiaryEntry entry)
+        {
+            if (entry != null && entry.Title.Length < 3)
+            {
+                ModelState.AddModelError("Title", "Başlık en az 3 karakter uzunluğunda olmalıdır.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.DiaryEntries.Update(entry);
+                _context.SaveChanges();
+                    return RedirectToAction("Index", "DiaryEntry");
+            }
+
+            return View(entry);
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            DiaryEntry? diary = _context.DiaryEntries.Find(id);
+
+            if (diary == null)
+            {
+                return NotFound();
+            }
+            return View(diary);
+
+        }
+        [HttpPost]
+        public IActionResult Delete(DiaryEntry entry)
+        {
+            _context.DiaryEntries.Remove(entry);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "DiaryEntry");
+
+
+
+            return View(entry);
+        }
+
+
     }
 }
